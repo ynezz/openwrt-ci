@@ -1,0 +1,25 @@
+include:
+  - local: '.gitlab/ci/docker.yml'
+  - local: 'openwrt-ci/gitlab/main.yml'
+
+stages:
+  - pre-build
+  - build
+  - test
+  - deploy
+
+check scripts with shellcheck:
+  stage: pre-build
+  extends: .openwrt-shellcheck
+
+ensure make ci-targets are documented:
+  stage: pre-build
+  extends: .openwrt-base
+  script:
+    - |
+      for target in $(make | grep ci- | cut -f1); do
+        grep -q $target README.md || {
+          echo "error: documentation for $target is missing in README.md"
+          exit 1
+        }
+      done

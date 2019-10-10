@@ -1,0 +1,58 @@
+FROM debian:testing
+MAINTAINER OpenWrt Maintainers
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && \
+    apt-get install -y \
+        build-essential \
+        curl \
+        cmake \
+        cppcheck \
+        file \
+        gawk \
+        gcc-7 \
+        gcc-8 \
+        git \
+        locales \
+        libcmocka0 \
+        libncurses5 \
+        libncurses5-dev \
+        libssl-dev \
+        libjson-c-dev \
+        liblua5.1-0-dev \
+        lua5.1 \
+        python2.7 \
+        python3 \
+        sudo \
+        unzip \
+        valgrind \
+        wget \
+        zlib1g-dev && \
+    apt-get -y autoremove && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG=en_US.utf8
+
+RUN \
+    echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    useradd -c "OpenWrt Builder" -m -d /home/build -G sudo -s /bin/bash build
+COPY --chown=build:build files/build.sh /home/build/openwrt/build.sh
+RUN chmod ug=rwx,o=rx /home/build/openwrt/build.sh
+RUN chown build:build /home/build/openwrt
+
+RUN \
+	mkdir -p /opt/clang-9 && \
+	wget -q http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz && \
+	tar xJf clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --strip-components=1 --directory=/opt/clang-9 && \
+	rm clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+ENV PATH "/opt/clang-9/bin:${PATH}"
+
+USER build
+ENV HOME /home/build
+WORKDIR /home/build/openwrt/
+RUN ./build.sh
+
+VOLUME [ "/home/build/openwrt" ]

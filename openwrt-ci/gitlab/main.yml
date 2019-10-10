@@ -1,0 +1,59 @@
+variables:
+  CI_TARGET_SDK_BRANCH: master
+  CI_SOURCE_URL: https://gitlab.com/ynezz/openwrt-ci/raw/master
+
+.openwrt-base:
+  image: alpine:latest
+  before_script:
+    - apk add make bash
+    - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+
+.openwrt-shellcheck:
+  image: alpine:latest
+  script:
+    - apk add make bash
+    - wget -q https://storage.googleapis.com/shellcheck/shellcheck-stable.linux.x86_64.tar.xz -O - | xzcat | tar -xv
+    - export PATH=./shellcheck-stable:$PATH
+    - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+    - make ci-shellcheck -f Makefile.ci
+
+.openwrt-native-build:
+  image: registry.gitlab.com/ynezz/openwrt-ci/native-testing:latest
+  script:
+    - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+    - make ci-native-checks -f Makefile.ci
+  artifacts:
+    expire_in: 1 week
+    when: on_failure
+    paths:
+      - build/scan
+
+.openwrt-sdk-oot-build:
+  image: openwrtorg/sdk:$CI_TARGET_SDK_PLATFORM-$CI_TARGET_SDK_BRANCH
+  script:
+    - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+    - make ci-sdk-oot-build -f Makefile.ci
+
+.openwrt-sdk-oot-build_ath79-generic:
+  extends: .openwrt-sdk-oot-build
+  variables:
+    CI_TARGET_SDK_PLATFORM: ath79-generic
+
+.openwrt-sdk-oot-build_imx6-generic:
+  extends: .openwrt-sdk-oot-build
+  variables:
+    CI_TARGET_SDK_PLATFORM: imx6-generic
+
+.openwrt-sdk-oot-build_malta-be:
+  extends: .openwrt-sdk-oot-build
+  variables:
+    CI_TARGET_SDK_PLATFORM: malta-be
+
+.openwrt-sdk-oot-build_mvebu-cortexa53:
+  extends: .openwrt-sdk-oot-build
+  variables:
+    CI_TARGET_SDK_PLATFORM: mvebu-cortexa53

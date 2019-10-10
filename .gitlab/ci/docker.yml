@@ -1,0 +1,39 @@
+variables:
+  IMAGE_NAME: "native-testing"
+  TESTING_IMAGE: "testing/$IMAGE_NAME"
+
+build Docker image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -t "$TESTING_IMAGE" -f docker/Dockerfile docker
+    - docker tag "$TESTING_IMAGE" "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"
+    - docker push "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"
+
+test Docker image:
+  stage: test
+  image: "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"
+  script:
+    - git clone --depth 1 --branch wip --recurse-submodules
+      https://gitlab.com/ynezz/openwrt-urngd.git urngd && cd urngd
+    - wget -q https://gitlab.com/ynezz/openwrt-ci/raw/master/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+    - make ci-native-checks -f Makefile.ci
+
+deploy image to GitLab registry:
+  stage: deploy
+  image: docker:latest
+  variables:
+    GITLAB_IMAGE: "$CI_REGISTRY_IMAGE/$IMAGE_NAME"
+  only:
+    - master
+  services:
+    - docker:dind
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"
+    - docker tag "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG" "$GITLAB_IMAGE:latest"
+    - docker push "$GITLAB_IMAGE:latest"

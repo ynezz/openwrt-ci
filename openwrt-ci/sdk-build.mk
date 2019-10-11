@@ -1,6 +1,6 @@
 define sdk_var
 	$(shell \
-		if [ -d "$(CI_OPENWRT_ROOT)" ]; then \
+		if [ -f "$(CI_OPENWRT_ROOT)/rules.mk" ]; then \
 			make -s \
 				TOPDIR=$(CI_OPENWRT_ROOT) \
 				-f $(CI_OPENWRT_ROOT)/rules.mk \

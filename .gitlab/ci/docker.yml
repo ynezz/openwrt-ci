@@ -21,7 +21,7 @@ test Docker image:
       https://gitlab.com/ynezz/openwrt-urngd.git urngd && cd urngd
     - wget -q https://gitlab.com/ynezz/openwrt-ci/raw/master/Makefile -O Makefile.ci
     - make ci-prepare -f Makefile.ci
-    - make ci-native-checks -f Makefile.ci
+    - make ci-native-checks -f Makefile.ci || docker rmi "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"
 
 deploy image to GitLab registry:
   stage: deploy
@@ -37,3 +37,4 @@ deploy image to GitLab registry:
     - docker pull "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"
     - docker tag "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG" "$GITLAB_IMAGE:latest"
     - docker push "$GITLAB_IMAGE:latest"
+    - docker rmi "$CI_REGISTRY_IMAGE/$TESTING_IMAGE:$CI_COMMIT_REF_SLUG"

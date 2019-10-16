@@ -18,6 +18,9 @@ make ci-shellcheck -f Makefile.ci
 ## Available make targets
 
  * ci-shellcheck - checks all shell scripts with shellcheck
+ * ci-py-codestyle - checks coding style on Python scripts with black
+ * ci-py-flake8 - run flake8 Python code linter on Python scripts
+ * ci-py-checks - run complete suite of Python checks
  * ci-native-scan-build - build with clang's static analyzer
  * ci-native-cppcheck - build with cppcheck static analyzer
  * ci-native-build - build with gcc 7 8 9 and clang 9

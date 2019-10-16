@@ -19,6 +19,14 @@ variables:
     - make ci-prepare -f Makefile.ci
     - make ci-shellcheck -f Makefile.ci
 
+.openwrt-pythoncheck:
+  image: alpine:latest
+  script:
+    - apk add make bash python3
+    - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+    - make ci-py-checks -f Makefile.ci
+
 .openwrt-native-build:
   image: registry.gitlab.com/ynezz/openwrt-ci/native-testing:latest
   script:

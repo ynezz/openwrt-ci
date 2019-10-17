@@ -12,22 +12,25 @@ define cmake_build
 	cd ./build && \
 	$(1) $(CI_CMAKE) \
 		-D CMAKE_BUILD_TYPE=$(2) \
+		$(if $(3),-DUNIT_TESTING=on) \
 		$(CI_CMAKE_EXTRA_BUILD_ARGS) \
 		.. ; \
 	ret=$$? ; \
 	if [ $$ret != 0 ]; then exit $$ret; fi ; \
 	$(1) $(CI_MAKE) \
 		$(CI_NUM_JOBS) \
-		$(CI_MAKE_EXTRA_BUILD_ARGS) ; \
+		$(CI_MAKE_EXTRA_BUILD_ARGS) \
+		all $(if $(3),test CTEST_OUTPUT_ON_FAILURE=1) \
+		; \
 	ret=$$? ; \
 	if [ $$ret != 0 ]; then exit $$ret; fi ; \
 	cd ..
 endef
 
 define cmake_build_release
-	$(call cmake_build,$(1),Release)
+	$(call cmake_build,$(1),Release,$(2))
 endef
 
 define cmake_build_debug
-	$(call cmake_build,$(1),Debug)
+	$(call cmake_build,$(1),Debug,$(2))
 endef

@@ -24,6 +24,7 @@ RUN apt-get update && \
         lua5.1 \
         python2.7 \
         python3 \
+        python3-venv \
         sudo \
         unzip \
         valgrind \

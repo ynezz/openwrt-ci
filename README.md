@@ -19,6 +19,22 @@ docker run --rm --tty --interactive --volume $(pwd):/home/build/openwrt \
 
 This is going to build `$some_openwrt_project` inside the same Docker container used by the CI tests and run `ci-native-checks` Make target.
 
+```
+cd $some_openwrt_project
+wget -q https://gitlab.com/ynezz/openwrt-ci/raw/master/Makefile -O Makefile.ci
+make ci-prepare -f Makefile.ci
+docker run --rm --tty --interactive \
+	--volume $(pwd):/home/build/source \
+	--workdir /home/build/source \
+	--env CI_TARGET_BUILD_DEPENDS=uci \
+	--env CI_ENABLE_UNIT_TESTING=1 \
+	openwrtorg/sdk:ath79-generic-master \
+	make ci-sdk-oot-build -f Makefile.ci
+```
+
+This is going to build `$some_openwrt_project` inside the same Docker container containing ath79 SDK used by the CI tests and run `ci-sdk-oot-build` Make target.
+It's as well setting `CI_TARGET_BUILD_DEPENDS` and `CI_ENABLE_UNIT_TESTING` environment variables, in the same way CI system would do.
+
 ## Available make targets
 
  * ci-shellcheck - checks all shell scripts with shellcheck

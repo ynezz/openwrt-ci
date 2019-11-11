@@ -9,7 +9,7 @@ CI_VENV_PREPARED:=$(CI_VENV_BIN)/.prepared
 $(CI_VENV_PREPARED):
 	python3 -m venv $(CI_VENV_DIR)
 	$(CI_PIP_VENV) install --upgrade pip
-	$(CI_PIP_VENV) install black flake8
+	$(CI_PIP_VENV) install black==19.3b0 flake8
 	@touch $@
 
 HELP += "ci-shellcheck			checks all shell scripts with shellcheck\n"

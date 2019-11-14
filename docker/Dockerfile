@@ -3,12 +3,18 @@ MAINTAINER OpenWrt Maintainers
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+RUN \
+        apt-get update && apt-get install -y curl gnupg2 && \
+        curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
+        echo "deb http://apt.llvm.org/unstable/ llvm-toolchain main" >> /etc/apt/sources.list
+
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
-        curl \
         cmake \
         cppcheck \
+        clang-10 \
+        clang-tools-10 \
         file \
         gawk \
         gcc-7 \
@@ -43,13 +49,6 @@ RUN \
 COPY --chown=build:build files/build.sh /home/build/openwrt/build.sh
 RUN chmod ug=rwx,o=rx /home/build/openwrt/build.sh
 RUN chown build:build /home/build/openwrt
-
-RUN \
-	mkdir -p /opt/clang-9 && \
-	wget -q http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz && \
-	tar xJf clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz --strip-components=1 --directory=/opt/clang-9 && \
-	rm clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
-ENV PATH "/opt/clang-9/bin:${PATH}"
 
 USER build
 ENV HOME /home/build

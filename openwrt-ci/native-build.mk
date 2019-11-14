@@ -8,7 +8,7 @@ ci-native-scan-build:
 HELP += "ci-native-cppcheck		build with cppcheck static analyzer\n"
 ci-native-cppcheck:
 	cppcheck --version
-	cppcheck $(CI_CPPCHECK_EXTRA_ARGS) --force --error-exitcode=1 .
+	cppcheck $(CI_CPPCHECK_EXTRA_ARGS) --force .
 
 HELP += "ci-native-build		build with gcc $(CI_GCC_VERSION_LIST) and clang $(CI_CLANG_VERSION_LIST)\n"
 ci-native-build:

@@ -11,7 +11,7 @@ BUILD_REPO_URLS=" \
 	${OWRT_REPO_URL}/ubus.git \
 	${OWRT_REPO_URL}/ubox.git \
 	${OWRT_REPO_URL}/ustream-ssl.git \
-	https://gitlab.com/ynezz/openwrt-libnl-tiny.git \
+	${OWRT_REPO_URL}/libnl-tiny.git \
 "
 
 log() {

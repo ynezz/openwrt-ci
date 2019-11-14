@@ -6,6 +6,7 @@ CI_GCC_VERSION_LIST ?= 7 8 9
 CI_CLANG_VERSION_LIST ?= 10
 CI_CMAKE_VERBOSE ?= 1
 CI_MAKE_EXTRA_BUILD_ARGS += VERBOSE=$(CI_CMAKE_VERBOSE)
+CI_SCAN_BUILD := scan-build-10
 
 define cmake_build
 	rm -fr ./build 2>/dev/null; mkdir -p ./build && \

@@ -2,8 +2,8 @@ CI_NATIVE_TESTS += $(if $(CI_ENABLE_UNIT_TESTING),unit)
 
 HELP += "ci-native-scan-build		build with clang's static analyzer\n"
 ci-native-scan-build:
-	$(call cmake_build_debug,scan-build -v --status-bugs -o scan,$(CI_NATIVE_TESTS))
-	$(call cmake_build_release,scan-build -v --status-bugs -o scan,$(CI_NATIVE_TESTS))
+	$(call cmake_build_debug,$(CI_SCAN_BUILD) -v --status-bugs -o scan,$(CI_NATIVE_TESTS))
+	$(call cmake_build_release,$(CI_SCAN_BUILD) -v --status-bugs -o scan,$(CI_NATIVE_TESTS))
 
 HELP += "ci-native-cppcheck		build with cppcheck static analyzer\n"
 ci-native-cppcheck:

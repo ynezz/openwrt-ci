@@ -9,6 +9,7 @@ ci-target-build-prepare:
 	make prereq
 
 	curl -s $(CI_TARGET_BUILD_CONFIG_URL) > .config
+	sed -i '/CONFIG_TARGET_DEVICE_/d' .config
 
 	# TODO: allow -IB -SDK +BUILD_LOG configuration
 	echo CONFIG_BUILD_LOG=y >> .config

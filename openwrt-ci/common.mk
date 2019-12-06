@@ -1,6 +1,7 @@
 CI_CMAKE ?= cmake
 CI_MAKE ?= make
-CI_NUM_JOBS ?= -j$$((nproc+1))
+CI_NPROC:=$(shell sysctl -n hw.ncpu 2>/dev/null || nproc)
+CI_NUM_JOBS:=-j$(CI_NPROC)
 CI_OPENWRT_ROOT ?= $(HOME)/openwrt
 CI_GCC_VERSION_LIST ?= 7 8 9
 CI_CLANG_VERSION_LIST ?= 10

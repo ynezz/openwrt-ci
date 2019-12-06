@@ -46,3 +46,6 @@ It's as well setting `CI_TARGET_BUILD_DEPENDS` and `CI_ENABLE_UNIT_TESTING` envi
  * ci-native-build - build with gcc 7 8 9 and clang 9
  * ci-native-checks - run complete group of native checks
  * ci-sdk-oot-build - out of tree build for target with SDK
+ * ci-target-build-prepare - prepare build environment and target config
+ * ci-target-build-download - download all build sources for target
+ * ci-target-build-run - build target profile images and packages

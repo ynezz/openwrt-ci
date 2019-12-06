@@ -1,0 +1,20 @@
+.openwrt-target-build:
+  image: openwrtorg/buildslave
+  script:
+    - export CI_TARGET_BUILD_PLATFORM="$(echo $CI_JOB_NAME | sed 's/target build \(.*\) .*/\1/')"
+    - export CI_TARGET_BUILD_SUBTARGET="$(echo $CI_JOB_NAME | sed 's/target build .* \(.*\)/\1/')"
+    - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
+    - make ci-prepare -f Makefile.ci
+    - make ci-target-build-prepare -f Makefile.ci
+    - make ci-target-build-download -f Makefile.ci
+    - make ci-target-build-run -f Makefile.ci
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      - bin/targets
+      - logs
+  cache:
+    key: openwrt-downloads
+    paths:
+      - dl/

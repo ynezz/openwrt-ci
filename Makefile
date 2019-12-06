@@ -7,6 +7,7 @@ CI_INCLUDE := \
 	openwrt-ci/common.mk \
 	openwrt-ci/pre-build.mk \
 	openwrt-ci/native-build.mk \
+	openwrt-ci/target-build.mk \
 	openwrt-ci/sdk-build.mk
 
 all: $(CI_PREPARED)

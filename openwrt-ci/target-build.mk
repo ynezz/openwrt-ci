@@ -16,6 +16,7 @@ ci-target-build-prepare:
 	make defconfig > /dev/null
 	sed -i 's/CONFIG_IB=y/# CONFIG_IB is not set/' .config
 	sed -i 's/CONFIG_SDK=y/# CONFIG_SDK is not set/' .config
+	sed -i 's/CONFIG_PACKAGE_kmod-acx-mac80211=m/# CONFIG_PACKAGE_kmod-acx-mac80211 is not set/' .config
 	echo "$$CI_TARGET_BUILD_CONFIG_EXTRA" >> .config
 	make oldconfig > /dev/null
 

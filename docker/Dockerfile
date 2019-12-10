@@ -21,6 +21,8 @@ RUN apt-get update && \
         gcc-8 \
         git \
         locales \
+        libc++-9-dev \
+        libc++abi-9-dev \
         libcmocka0 \
         libncurses5 \
         libncurses5-dev \

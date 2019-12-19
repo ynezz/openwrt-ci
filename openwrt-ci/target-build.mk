@@ -33,8 +33,8 @@ HELP += "ci-target-build-run		build target profile images and packages\n"
 ci-target-build-run:
 	make $(CI_NUM_JOBS) tools/install || make -j1 tools/install V=s
 	make $(CI_NUM_JOBS) toolchain/install || make -j1 toolchain/install V=s
-	make $(CI_NUM_JOBS) target/compile 'IGNORE_ERRORS=n m'
-	make $(CI_NUM_JOBS) package/compile 'IGNORE_ERRORS=n m'
+	make $(CI_NUM_JOBS) target/compile 'IGNORE_ERRORS=n m' || make -j1 target/compile V=s
+	make $(CI_NUM_JOBS) package/compile 'IGNORE_ERRORS=n m' || make -j1 package/compile V=s
 	make $(CI_NUM_JOBS) package/install || make -j1 package/install V=s
 	make $(CI_NUM_JOBS) package/index CONFIG_SIGNED_PACKAGES=
 	make $(CI_NUM_JOBS) target/install V=s

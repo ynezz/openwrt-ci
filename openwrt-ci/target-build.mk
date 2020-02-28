@@ -9,14 +9,14 @@ ci-target-build-prepare:
 	make prereq
 
 	curl -s $(CI_TARGET_BUILD_CONFIG_URL) > .config
-	sed -i '/CONFIG_TARGET_DEVICE_/d' .config
+	sed -i.old -e '/CONFIG_TARGET_DEVICE_/d' .config
 
 	# TODO: allow -IB -SDK +BUILD_LOG configuration
 	echo CONFIG_BUILD_LOG=y >> .config
 	make defconfig > /dev/null
-	sed -i 's/CONFIG_IB=y/# CONFIG_IB is not set/' .config
-	sed -i 's/CONFIG_SDK=y/# CONFIG_SDK is not set/' .config
-	sed -i 's/CONFIG_PACKAGE_kmod-acx-mac80211=m/# CONFIG_PACKAGE_kmod-acx-mac80211 is not set/' .config
+	sed -i.old -e 's/CONFIG_IB=y/# CONFIG_IB is not set/' .config
+	sed -i.old -e 's/CONFIG_SDK=y/# CONFIG_SDK is not set/' .config
+	sed -i.old -e 's/CONFIG_PACKAGE_kmod-acx-mac80211=m/# CONFIG_PACKAGE_kmod-acx-mac80211 is not set/' .config
 	echo "$$CI_TARGET_BUILD_CONFIG_EXTRA" >> .config
 	make oldconfig > /dev/null
 

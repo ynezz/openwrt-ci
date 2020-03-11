@@ -12,7 +12,7 @@
     expire_in: 1 week
     when: always
     paths:
-      - bin/targets
+      - bin
       - logs
   cache:
     key: openwrt-downloads

@@ -4,9 +4,9 @@ variables:
 
 build Docker image:
   stage: build
-  image: docker:19.03.6
+  image: docker:19.03.7
   services:
-    - docker:19.03.6-dind
+    - docker:19.03.7-dind
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: "/certs"
@@ -28,11 +28,11 @@ test Docker image:
 
 deploy image to GitLab registry:
   stage: deploy
-  image: docker:19.03.6
+  image: docker:19.03.7
   only:
     - master
   services:
-    - docker:19.03.6-dind
+    - docker:19.03.7-dind
   variables:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: "/certs"

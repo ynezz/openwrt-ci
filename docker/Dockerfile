@@ -50,7 +50,9 @@ RUN \
     useradd -c "OpenWrt Builder" -m -d /home/build -G sudo -s /bin/bash build
 COPY --chown=build:build files/build.sh /home/build/openwrt/build.sh
 RUN chmod ug=rwx,o=rx /home/build/openwrt/build.sh
-RUN chown build:build /home/build/openwrt
+
+# FIXME: this timeouts after 90min when running under docker-dind on GitLab CI shared runners
+#RUN chown build:build /home/build/openwrt
 
 USER build
 ENV HOME /home/build

@@ -2,6 +2,8 @@
   image:
     name: openwrtorg/buildslave
     entrypoint: [""]
+  variables:
+    GIT_DEPTH: 1
   script:
     - export CI_TARGET_BUILD_PLATFORM="$(echo $CI_JOB_NAME | sed 's/target build \(.*\) .*/\1/')"
     - export CI_TARGET_BUILD_SUBTARGET="$(echo $CI_JOB_NAME | sed 's/target build .* \(.*\)/\1/')"

@@ -17,8 +17,9 @@ RUN apt-get update && \
         clang-tools-9 \
         file \
         gawk \
-        gcc-7 \
         gcc-8 \
+        gcc-9 \
+        gcc-10 \
         git \
         locales \
         libc++-9-dev \

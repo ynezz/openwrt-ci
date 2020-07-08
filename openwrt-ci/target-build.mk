@@ -1,5 +1,10 @@
 CI_TARGET_BUILD_DOWNLOAD_URL:=https://downloads.openwrt.org/snapshots/targets
 CI_TARGET_BUILD_CONFIG_URL:=$(CI_TARGET_BUILD_DOWNLOAD_URL)/$(CI_TARGET_BUILD_PLATFORM)/$(CI_TARGET_BUILD_SUBTARGET)/config.buildinfo
+CONFIG_EXTRA_EXPANDED :=
+$(foreach option,$(CI_TARGET_BUILD_CONFIG_EXTRA),\
+	$(eval CONFIG_EXTRA_EXPANDED += $(patsubst +%,CONFIG_%=y,\
+		$(patsubst -%,CONFIG_%=n, $(option))))\
+)
 
 HELP += "ci-target-build-prepare	prepare build environment and target config\n"
 ci-target-build-prepare:
@@ -9,16 +14,8 @@ ci-target-build-prepare:
 	make prereq
 
 	curl -s $(CI_TARGET_BUILD_CONFIG_URL) > .config
-	sed -i.old -e '/CONFIG_TARGET_DEVICE_/d' .config
-
-	# TODO: allow -IB -SDK +BUILD_LOG configuration
-	echo CONFIG_BUILD_LOG=y >> .config
+	echo "$(CONFIG_EXTRA_EXPANDED)" | tr ' ' '\n'>> .config
 	make defconfig > /dev/null
-	sed -i.old -e 's/CONFIG_IB=y/# CONFIG_IB is not set/' .config
-	sed -i.old -e 's/CONFIG_SDK=y/# CONFIG_SDK is not set/' .config
-	sed -i.old -e 's/CONFIG_PACKAGE_kmod-acx-mac80211=m/# CONFIG_PACKAGE_kmod-acx-mac80211 is not set/' .config
-	echo "$$CI_TARGET_BUILD_CONFIG_EXTRA" >> .config
-	make oldconfig > /dev/null
 
 	@echo -e "\n---- config ----\n"
 	@$(TOPDIR)/scripts/diffconfig.sh

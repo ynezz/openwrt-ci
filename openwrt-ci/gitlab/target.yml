@@ -4,6 +4,8 @@
     entrypoint: [""]
   variables:
     GIT_DEPTH: 1
+    CI_TARGET_BUILD_CONFIG_EXTRA: >
+      +TESTING_KERNEL +BUILD_LOG -IB -SDK -PACKAGE_kmod-acx-mac80211
   script:
     - export CI_TARGET_BUILD_PLATFORM="$(echo $CI_JOB_NAME | sed 's/target build \(.*\) .*/\1/')"
     - export CI_TARGET_BUILD_SUBTARGET="$(echo $CI_JOB_NAME | sed 's/target build .* \(.*\)/\1/')"

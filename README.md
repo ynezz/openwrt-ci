@@ -43,7 +43,7 @@ It's as well setting `CI_TARGET_BUILD_DEPENDS` and `CI_ENABLE_UNIT_TESTING` envi
  * ci-py-checks - run complete suite of Python checks
  * ci-native-scan-build - build with clang's static analyzer
  * ci-native-cppcheck - build with cppcheck static analyzer
- * ci-native-build - build with gcc 7 8 9 and clang 9
+ * ci-native-build - build with gcc 7 8 9 and clang 10
  * ci-native-checks - run complete group of native checks
  * ci-sdk-oot-build - out of tree build for target with SDK
  * ci-target-build-prepare - prepare build environment and target config

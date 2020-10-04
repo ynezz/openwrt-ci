@@ -46,6 +46,12 @@ RUN apt-get update && \
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG=en_US.utf8
 
+WORKDIR /opt
+
+ENV AFL_COMMIT=1cc1a0985039
+RUN git clone https://github.com/google/AFL && cd AFL && git reset --hard $AFL_COMMIT
+RUN make -j$(($(nproc)+1)) -C AFL all install
+
 RUN \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     useradd -c "OpenWrt Builder" -m -d /home/build -G sudo -s /bin/bash build

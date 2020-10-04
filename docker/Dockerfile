@@ -22,6 +22,7 @@ RUN apt-get update && \
         gcc-10 \
         git \
         locales \
+        libbfd-dev \
         libc++-10-dev \
         libc++abi-10-dev \
         libcmocka0 \
@@ -30,6 +31,7 @@ RUN apt-get update && \
         libssl-dev \
         libjson-c-dev \
         liblua5.1-0-dev \
+        libunwind-dev \
         lua5.1 \
         python2.7 \
         python3 \
@@ -51,6 +53,13 @@ WORKDIR /opt
 ENV AFL_COMMIT=1cc1a0985039
 RUN git clone https://github.com/google/AFL && cd AFL && git reset --hard $AFL_COMMIT
 RUN make -j$(($(nproc)+1)) -C AFL all install
+
+ENV HONGFUZZ_COMMIT=cf5f34a
+RUN \
+    git clone https://github.com/google/honggfuzz && \
+    cd honggfuzz && \
+    git reset --hard $HONGFUZZ_COMMIT && \
+    make -j$(($(nproc)+1)) all install
 
 RUN \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \

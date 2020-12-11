@@ -26,11 +26,13 @@ RUN apt-get update && \
         libc++-10-dev \
         libc++abi-10-dev \
         libcmocka0 \
+        libmbedtls-dev \
         libncurses5 \
         libncurses5-dev \
         libssl-dev \
         libjson-c-dev \
         liblua5.1-0-dev \
+        libwolfssl-dev \
         libunwind-dev \
         lua5.1 \
         python2.7 \

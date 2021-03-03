@@ -37,7 +37,9 @@ endif
 ifneq ($(CI_TARGET_BUILD_DEPENDS),)
 	cd $(CI_OPENWRT_ROOT) && \
 		for pkg in $(CI_TARGET_BUILD_DEPENDS); do \
-			make package/$${pkg}/{clean,compile} V=s -j$$((nproc+1)) ; \
+			make package/$${pkg}/{clean,compile} \
+				PKG_ABI_VERSION=$(shell date +%Y%m%d) \
+				V=s -j$$((nproc+1)) ; \
 		done
 endif
 

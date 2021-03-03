@@ -38,6 +38,7 @@ variables:
     when: on_failure
     paths:
       - build/scan
+      - tests/cram/**/*.t.err
 
 .openwrt-sdk-oot-build:
   image: openwrtorg/sdk:$CI_TARGET_SDK_PLATFORM-$CI_TARGET_SDK_BRANCH

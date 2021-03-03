@@ -1,12 +1,8 @@
 include:
-  - local: '.gitlab/ci/docker.yml'
   - local: 'openwrt-ci/gitlab/main.yml'
 
 stages:
   - pre-build
-  - build
-  - test
-  - deploy
 
 check scripts with shellcheck:
   stage: pre-build

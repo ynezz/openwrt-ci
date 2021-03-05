@@ -12,9 +12,7 @@ variables:
 .openwrt-shellcheck:
   image: alpine:latest
   script:
-    - apk add make bash
-    - wget -q https://github.com/koalaman/shellcheck/releases/download/stable/shellcheck-stable.linux.x86_64.tar.xz -O - | xzcat | tar -xv
-    - export PATH=./shellcheck-stable:$PATH
+    - apk add make bash shellcheck
     - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
     - make ci-prepare -f Makefile.ci
     - make ci-shellcheck -f Makefile.ci

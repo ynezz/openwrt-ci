@@ -29,7 +29,6 @@ RUN apt-get update && \
         libncurses5 \
         libncurses5-dev \
         libssl-dev \
-        libjson-c-dev \
         liblua5.1-0-dev \
         libwolfssl-dev \
         libunwind-dev \
@@ -54,6 +53,13 @@ RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG=en_US.utf8
 
 WORKDIR /opt
+
+ENV JSONC_TAG=json-c-0.15-20200726
+RUN git clone https://github.com/json-c/json-c && cd json-c && git reset --hard $JSONC_TAG
+RUN \
+	mkdir build && \
+	cmake -S $(pwd)/json-c -B $(pwd)/build -DCMAKE_INSTALL_PREFIX=/usr && \
+	make -j$(($(nproc)+1)) -C $(pwd)/build all install
 
 ENV AFL_COMMIT=1cc1a0985039
 RUN git clone https://github.com/google/AFL && cd AFL && git reset --hard $AFL_COMMIT

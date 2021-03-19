@@ -17,7 +17,6 @@ RUN apt-get update && \
         clang-tools-11 \
         file \
         gawk \
-        gcc-8 \
         gcc-9 \
         gcc-10 \
         git \
@@ -42,10 +41,14 @@ RUN apt-get update && \
         unzip \
         valgrind \
         wget \
-        zlib1g-dev && \
-    apt-get -y autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+        zlib1g-dev
+
+RUN echo 'deb http://deb.debian.org/debian buster main' >> /etc/apt/sources.list
+RUN apt-get update && apt-get install -y libisl19 libmpx2
+RUN apt-get download gcc-8 gcc-8-base cpp-8 libgcc-8-dev
+RUN dpkg -i --force-all *.deb
+
+RUN rm -rf /var/lib/apt/lists/* && rm -fr /var/cache/apt
 
 RUN localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 ENV LANG=en_US.utf8

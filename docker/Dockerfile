@@ -6,15 +6,15 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN \
         apt-get update && apt-get install -y curl gnupg2 && \
         curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-        echo "deb http://apt.llvm.org/unstable/ llvm-toolchain-10 main" >> /etc/apt/sources.list
+        echo "deb http://apt.llvm.org/unstable/ llvm-toolchain-11 main" >> /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
         cmake \
         cppcheck \
-        clang-10 \
-        clang-tools-10 \
+        clang-11 \
+        clang-tools-11 \
         file \
         gawk \
         gcc-8 \
@@ -23,8 +23,8 @@ RUN apt-get update && \
         git \
         locales \
         libbfd-dev \
-        libc++-10-dev \
-        libc++abi-10-dev \
+        libc++-11-dev \
+        libc++abi-11-dev \
         libcmocka0 \
         libmbedtls-dev \
         libncurses5 \

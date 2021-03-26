@@ -72,6 +72,8 @@ RUN \
     git reset --hard $HONGFUZZ_COMMIT && \
     make -j$(($(nproc)+1)) all install
 
+RUN rm -fr /opt/*
+
 RUN \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     useradd -c "OpenWrt Builder" -m -d /home/build -G sudo -s /bin/bash build
@@ -82,6 +84,6 @@ RUN chown build:build /home/build/openwrt
 USER build
 ENV HOME /home/build
 WORKDIR /home/build/openwrt/
-RUN ./build.sh
+RUN ./build.sh && rm -fr ./*
 
 VOLUME [ "/home/build/openwrt" ]

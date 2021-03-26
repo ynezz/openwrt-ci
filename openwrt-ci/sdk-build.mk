@@ -26,7 +26,7 @@ endef
 CI_SDK_PREPARED := $(CI_OPENWRT_ROOT)/tmp/.ci-sdk-prepared
 $(CI_SDK_PREPARED):
 	mkdir -p $(dir $(CI_SDK_PREPARED))
-	cd $(CI_OPENWRT_ROOT) && ./scripts/feeds update base
+	cd $(CI_OPENWRT_ROOT) && ./scripts/feeds update $(CI_FEED_BUILD_DEPENDS)
 
 ifneq ($(CI_TARGET_BUILD_DEPENDS),)
 	cd $(CI_OPENWRT_ROOT) && ./scripts/feeds install $(CI_TARGET_BUILD_DEPENDS)

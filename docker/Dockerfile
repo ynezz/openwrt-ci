@@ -61,6 +61,13 @@ RUN \
 	cmake -S $(pwd)/json-c -B $(pwd)/build -DCMAKE_INSTALL_PREFIX=/usr && \
 	make -j$(($(nproc)+1)) -C $(pwd)/build all install
 
+ENV LWS_TAG=v4.1.6
+RUN git clone https://github.com/warmcat/libwebsockets && cd libwebsockets && git reset --hard $LWS_TAG
+RUN \
+	mkdir build-lws && \
+	cmake -S $(pwd)/libwebsockets -B $(pwd)/build-lws -DCMAKE_INSTALL_PREFIX=/usr && \
+	make -j$(($(nproc)+1)) -C $(pwd)/build-lws all install
+
 ENV AFL_COMMIT=1cc1a0985039
 RUN git clone https://github.com/google/AFL && cd AFL && git reset --hard $AFL_COMMIT
 RUN make -j$(($(nproc)+1)) -C AFL all install

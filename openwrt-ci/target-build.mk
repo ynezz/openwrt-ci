@@ -13,6 +13,12 @@ ci-target-build-prepare:
 	$(TOPDIR)/scripts/config/conf --defconfig=.config Config.in
 	make prereq
 
+ifneq ($(CI_TARGET_BUILD_NEEDS_FEEDS),)
+	sed -i 's;https://git.openwrt.org;https://gitlab.com/openwrt;' feeds.conf.default
+	$(TOPDIR)/scripts/feeds update -f
+	$(TOPDIR)/scripts/feeds install -a
+endif
+
 	curl -s $(CI_TARGET_BUILD_CONFIG_URL) > .config
 	echo "$(CONFIG_EXTRA_EXPANDED)" | tr ' ' '\n'>> .config
 	make defconfig > /dev/null

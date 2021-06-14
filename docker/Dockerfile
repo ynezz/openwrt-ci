@@ -36,6 +36,7 @@ RUN apt-get update && \
         python2.7 \
         python3 \
         python3-venv \
+        quilt \
         sudo \
         unzip \
         valgrind \

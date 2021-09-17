@@ -1,5 +1,5 @@
 variables:
-  CI_TARGET_SDK_BRANCH: master
+  CI_TARGET_SDK_VERSION: snapshot
   CI_SOURCE_URL: https://gitlab.com/ynezz/openwrt-ci/raw/master
 
 .openwrt-base:
@@ -39,7 +39,7 @@ variables:
       - tests/cram/**/*.t.err
 
 .openwrt-sdk-oot-build:
-  image: openwrtorg/sdk:$CI_TARGET_SDK_PLATFORM-$CI_TARGET_SDK_BRANCH
+  image: openwrt/sdk:$CI_TARGET_SDK_PLATFORM-$CI_TARGET_SDK_VERSION
   script:
     - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
     - make ci-prepare -f Makefile.ci

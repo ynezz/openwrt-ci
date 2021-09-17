@@ -28,7 +28,7 @@ docker run --rm --tty --interactive \
 	--workdir /home/build/source \
 	--env CI_TARGET_BUILD_DEPENDS=uci \
 	--env CI_ENABLE_UNIT_TESTING=1 \
-	openwrtorg/sdk:ath79-generic-master \
+	openwrt/sdk:ath79-generic-snapshot \
 	make ci-sdk-oot-build -f Makefile.ci
 ```
 

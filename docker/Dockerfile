@@ -6,24 +6,24 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN \
         apt-get update && apt-get install -y curl gnupg2 && \
         curl https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-        echo "deb http://apt.llvm.org/unstable/ llvm-toolchain-11 main" >> /etc/apt/sources.list
+        echo "deb http://apt.llvm.org/bullseye/ llvm-toolchain-bullseye main" >> /etc/apt/sources.list
 
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
         cmake \
         cppcheck \
-        clang-11 \
-        clang-tools-11 \
+        clang-15 \
+        clang-tools-15 \
         file \
         gawk \
-        gcc-9 \
         gcc-10 \
+        gcc-11 \
         git \
         locales \
         libbfd-dev \
-        libc++-11-dev \
-        libc++abi-11-dev \
+        libc++-15-dev \
+        libc++abi-15-dev \
         libcmocka0 \
         libmbedtls-dev \
         libncurses5 \
@@ -31,7 +31,7 @@ RUN apt-get update && \
         libssl-dev \
         liblua5.1-0-dev \
         libwolfssl-dev \
-        libunwind-dev \
+        libunwind-15-dev \
         lua5.1 \
         python2.7 \
         python3 \
@@ -69,16 +69,9 @@ RUN \
 	cmake -S $(pwd)/libwebsockets -B $(pwd)/build-lws -DCMAKE_INSTALL_PREFIX=/usr && \
 	make -j$(($(nproc)+1)) -C $(pwd)/build-lws all install
 
-ENV AFL_COMMIT=1cc1a0985039
+ENV AFL_COMMIT=61037103ae3722c8060ff7082994836a794f978e
 RUN git clone https://github.com/google/AFL && cd AFL && git reset --hard $AFL_COMMIT
 RUN make -j$(($(nproc)+1)) -C AFL all install
-
-ENV HONGFUZZ_COMMIT=cf5f34a
-RUN \
-    git clone https://github.com/google/honggfuzz && \
-    cd honggfuzz && \
-    git reset --hard $HONGFUZZ_COMMIT && \
-    make -j$(($(nproc)+1)) all install
 
 RUN rm -fr /opt/*
 

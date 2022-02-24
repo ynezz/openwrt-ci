@@ -3,11 +3,11 @@ CI_MAKE ?= make
 CI_NPROC:=$(shell sysctl -n hw.ncpu 2>/dev/null || nproc)
 CI_NUM_JOBS:=-j$(CI_NPROC)
 CI_OPENWRT_ROOT ?= $(HOME)/openwrt
-CI_GCC_VERSION_LIST ?= 8 9 10
-CI_CLANG_VERSION_LIST ?= 11
+CI_GCC_VERSION_LIST ?= 8 10 11
+CI_CLANG_VERSION_LIST ?= 15
 CI_CMAKE_VERBOSE ?= 1
 CI_MAKE_EXTRA_BUILD_ARGS += VERBOSE=$(CI_CMAKE_VERBOSE)
-CI_SCAN_BUILD := scan-build-11
+CI_SCAN_BUILD := scan-build-15
 CI_FEED_BUILD_DEPENDS ?= base
 
 define cmake_build

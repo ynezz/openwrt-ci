@@ -42,7 +42,8 @@ ci-target-build-run:
 	make $(CI_NUM_JOBS) package/index CONFIG_SIGNED_PACKAGES=
 	make $(CI_NUM_JOBS) target/install V=s
 
-	make -j1 prepare V=s
+	make -j1 buildinfo V=s || true
+	make -j1 json_overview_image_info V=s || true
 	make -j1 checksum V=s
-	make -j1 json_overview_image_info V=s
+
 	@echo "ci: ooh, victory! :-)"

@@ -1,6 +1,6 @@
 .openwrt-target-build:
   image:
-    name: 'registry.gitlab.com/openwrt/buildbot/buildworker-3.4.0:6a9389ac@sha256:c0c2ab3591fc74e3633004209da1ef3a7c3d53b5c03ce9172dfabde0828abb5f'
+    name: 'registry.gitlab.com/openwrt/buildbot/buildworker-3.5.0:33549d7c@sha256:a036bc5670f997748cad4d0cd1b4b0adfed8bb5927392164f3d279d322e62f43'
     entrypoint: [""]
   variables:
     GIT_DEPTH: 1

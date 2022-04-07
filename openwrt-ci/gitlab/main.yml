@@ -55,10 +55,10 @@ variables:
   variables:
     CI_TARGET_SDK_PLATFORM: ath79-generic
 
-.openwrt-sdk-oot-build_imx6-generic:
+.openwrt-sdk-oot-build_imx-cortexa9:
   extends: .openwrt-sdk-oot-build
   variables:
-    CI_TARGET_SDK_PLATFORM: imx6-generic
+    CI_TARGET_SDK_PLATFORM: imx-cortexa9
 
 .openwrt-sdk-oot-build_malta-be:
   extends: .openwrt-sdk-oot-build

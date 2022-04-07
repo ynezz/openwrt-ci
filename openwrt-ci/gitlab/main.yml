@@ -44,6 +44,11 @@ variables:
     - wget -q $CI_SOURCE_URL/Makefile -O Makefile.ci
     - make ci-prepare -f Makefile.ci
     - make ci-sdk-oot-build -f Makefile.ci
+  artifacts:
+    expire_in: 1 week
+    when: on_failure
+    paths:
+      - logs
 
 .openwrt-sdk-oot-build_ath79-generic:
   extends: .openwrt-sdk-oot-build

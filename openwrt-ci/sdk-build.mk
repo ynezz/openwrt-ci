@@ -49,6 +49,7 @@ HELP += "ci-sdk-oot-build		build out of tree for target with SDK (WIP)\n"
 ci-sdk-oot-build: CI_CMAKE := $(strip $(call sdk_var,STAGING_DIR_HOST))/bin/cmake
 ci-sdk-oot-build: CI_CMAKE_EXTRA_BUILD_ARGS += -D CMAKE_TOOLCHAIN_FILE=toolchain.cmake
 ci-sdk-oot-build: export STAGING_DIR:=$(strip $(call sdk_var,STAGING_DIR))
+ci-sdk-oot-build: export STAGING_DIR_HOST:=$(strip $(call sdk_var,STAGING_DIR_HOST))
 ci-sdk-oot-build: export LDFLAGS+=-L$(strip $(call sdk_var,STAGING_DIR))/usr/lib -L$(strip $(call sdk_var,STAGING_DIR))/lib
 ci-sdk-oot-build: export CFLAGS+=-I$(strip $(call sdk_var,STAGING_DIR))/usr/include
 ci-sdk-oot-build: export STAGING_PREFIX=$(strip $(call sdk_var,STAGING_DIR))/usr
